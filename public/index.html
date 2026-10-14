@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>So File Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">.so</span>
+      <span class="brand-name">So File Generator</span>
+    </div>
+    <div class="status-pill" id="statusPill">
+      <span class="dot"></span>
+      <span id="statusText">NDK ready</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel panel-input">
+      <div class="panel-head">
+        <h1>Compile C++ to .so</h1>
+        <p>Tempel source code, atau lempar file .cpp ke sini. Output-nya native arm64 shared library, stripped bersih.</p>
+      </div>
+
+      <div class="mode-switch" role="tablist">
+        <button class="mode-btn active" data-mode="paste" role="tab">
+          <i class="fa-solid fa-keyboard"></i> Tulis kode
+        </button>
+        <button class="mode-btn" data-mode="upload" role="tab">
+          <i class="fa-solid fa-file-arrow-up"></i> Upload file
+        </button>
+      </div>
+
+      <div class="input-area" id="pasteArea">
+        <textarea id="sourceCode" spellcheck="false" placeholder="#include <jni.h>&#10;&#10;extern &quot;C&quot; JNIEXPORT jint JNICALL&#10;Java_com_example_game_Native_add(JNIEnv* env, jobject, jint a, jint b) {&#10;    return a + b;&#10;}"></textarea>
+        <div class="area-foot">
+          <span id="charCount">0 karakter</span>
+          <span class="hint">.cpp / .c</span>
+        </div>
+      </div>
+
+      <div class="input-area dropzone" id="uploadArea" hidden>
+        <input type="file" id="fileInput" accept=".cpp,.cc,.cxx,.c" hidden>
+        <div class="drop-inner" id="dropInner">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <p>Drag & drop file .cpp di sini</p>
+          <button type="button" class="btn-ghost" id="browseBtn">atau pilih file</button>
+        </div>
+        <div class="file-chip" id="fileChip" hidden>
+          <i class="fa-solid fa-file-code"></i>
+          <span id="fileName"></span>
+          <button type="button" id="removeFile" aria-label="Hapus file"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+
+      <div class="options-row">
+        <label class="field">
+          <span>Nama output</span>
+          <input type="text" id="outputName" value="libgame" spellcheck="false">
+        </label>
+        <label class="field">
+          <span>Target ABI</span>
+          <select id="abiSelect">
+            <option value="arm64-v8a" selected>arm64-v8a</option>
+            <option value="armeabi-v7a">armeabi-v7a</option>
+            <option value="x86_64">x86_64</option>
+          </select>
+        </label>
+        <label class="toggle">
+          <input type="checkbox" id="stripToggle" checked>
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          <span class="toggle-label">Strip simbol</span>
+        </label>
+      </div>
+
+      <button class="btn-build" id="buildBtn">
+        <i class="fa-solid fa-hammer"></i>
+        <span>Compile ke .so</span>
+      </button>
+    </section>
+
+    <section class="panel panel-output">
+      <div class="panel-head">
+        <h2>Build log</h2>
+        <p id="outputSub">Belum ada build.</p>
+      </div>
+
+      <div class="log-window" id="logWindow">
+        <p class="log-empty">Output compiler bakal muncul di sini.</p>
+      </div>
+
+      <div class="result-card" id="resultCard" hidden>
+        <div class="result-info">
+          <i class="fa-solid fa-microchip"></i>
+          <div>
+            <strong id="resultName">libgame.so</strong>
+            <span id="resultMeta">arm64-v8a · stripped · 0 KB</span>
+          </div>
+        </div>
+        <a class="btn-download" id="downloadBtn" href="#" download>
+          <i class="fa-solid fa-download"></i> Download
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot-note">
+    Backend compiler jalan terpisah (Android NDK, bukan di edge WASI) — lihat README buat setup.
+  </footer>
+
+<script src="script.js"></script>
+</body>
+  </html>
+                                                                                                                                                                                                                                                    
